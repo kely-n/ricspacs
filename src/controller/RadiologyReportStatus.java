@@ -19,7 +19,13 @@ public class RadiologyReportStatus {
         return 1;
     }
 
+    /**
+     * updates a report
+     * @param report
+     * @return
+     */
     public static int updateReport(Report report){
+
         return 1;
     }
 

@@ -2,11 +2,8 @@ package controller;
 
 import models.Patient;
 
-import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
 
 /**
  *  The PatientRegistration program is an application that enables a patient to be
@@ -49,7 +46,7 @@ public class PatientRegistration {
         try {
             Connection con = dbConnection.connectDb();
 
-            String query = "update patient  name=?, billing_status=?, diagnosis=? where reg_no=?;";
+            String query = "update patient set name=?, billing_status=?, diagnosis=? where reg_no=?;";
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setString(1, patient.getName());
             preparedStatement.setString(2, patient.getBilling_status());
@@ -89,6 +86,11 @@ public class PatientRegistration {
 
     public static void main(String ... args){
         Patient patient = new Patient(2, "patient 2", "paid");
+
+        registerPatient(patient);
+        patient.setDiagnosis("leg amputation");
+        updatePatientData(patient);
+        //deletePatient(patient);
     }
 
 }
