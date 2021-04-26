@@ -5,4 +5,8 @@ package main;
  */
 public class RadiographerProgram {
 
+    public static void main(String ... args){
+        System.out.println("Radiographers App: ");
+
+    }
 }

@@ -15,6 +15,7 @@ public class RadiologyReportStatus {
      * @param report
      * @return 1 if successful, else 0
      */
+
     public static int createReport(ImagingResult imagingResult, Report report){
         return 1;
     }
