@@ -4,6 +4,8 @@ import models.Patient;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 
@@ -87,13 +89,48 @@ public class PatientRegistration {
     }
 
     public static Patient getPatient(int reg_no) {
+        DbConnection dbConnection = new DbConnection();
+        try {
+            Connection con = dbConnection.connectDb();
+            Statement stmnt = con.createStatement();
+            ResultSet rs = stmnt.executeQuery("Select * from patient where reg_no = "+reg_no+";");
 
+            if (rs.next()){
+                Patient patient = new Patient(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4)
+                );
+                return patient;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return null;
     }
 
     public static ArrayList<Patient> getAllPatients(){
+        DbConnection dbConnection = new DbConnection();
+        ArrayList<Patient> patients = new ArrayList<>();
+        try {
+            Connection con = dbConnection.connectDb();
+            Statement stmnt = con.createStatement();
+            ResultSet rs = stmnt.executeQuery("Select * from patient;");
 
-        return null;
+            while (rs.next()){
+                Patient patient = new Patient(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4)
+                );
+                patients.add(patient);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return patients;
     }
 
 

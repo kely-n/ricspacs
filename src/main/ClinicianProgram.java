@@ -1,11 +1,13 @@
 package main;
 
+import controller.HospitalSystem;
 import controller.PatientRegistration;
 import controller.RadiologyAppointmentStatus;
 import models.Appointment;
 import models.Clinician;
 import models.Patient;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -17,10 +19,14 @@ import java.util.Scanner;
  */
 public class ClinicianProgram {
 
+    static  Clinician clinician;
+
     static Scanner sc =  new Scanner(System.in);
 
     public static void main(String []args){
         System.out.println("Clinicians App: ");
+
+        clinician = HospitalSystem.getClinician(1);
 
         while (true){
             showMenu();
@@ -69,12 +75,17 @@ public class ClinicianProgram {
 
         System.out.println("registered patients");
         //display all registered patients
+        ArrayList<Patient> patients = PatientRegistration.getAllPatients();
+        for(Patient patient : patients){
+            System.out.println(patient.toString());
+        }
         System.out.println("Select a patient (enter patients reg_no) : ");
 
+        String input = sc.nextLine();
+
         try {
-            int reg_no = sc.nextInt();
+            int reg_no = Integer.parseInt(input);
             patientMenu(reg_no);
-            System.out.println(reg_no);
         }catch(Exception e){
             System.out.println("Check that you have selected the correct input");
         }
@@ -86,7 +97,7 @@ public class ClinicianProgram {
     private static void patientMenu(int reg_no) {
         //get the selected patient from database
         Patient patient = PatientRegistration.getPatient(reg_no);
-
+        System.out.println(patient);
         System.out.println("Patient Sub-Menu");
         System.out.println("Select a valid option");
         System.out.println("1. Add and edit the patient's diagnosis");
@@ -96,8 +107,10 @@ public class ClinicianProgram {
         System.out.println("5. back to main menu");
 
 
+        String input = sc.nextLine();
+
         try {
-            int command = sc.nextInt();
+            int command = Integer.parseInt(input);
             processPatientCommands(command, patient);
             System.out.println(command);
         }catch(Exception e){
@@ -116,6 +129,7 @@ public class ClinicianProgram {
 
                 //update data
                 PatientRegistration.updatePatientData(patient);
+                System.out.println("Diagnosis recorded");
                 break;
             case 2: //create the patient's appointment for an X-Ray
                 createAppointment(patient);
@@ -140,9 +154,10 @@ public class ClinicianProgram {
         System.out.println("Appointment title: ");
         String title = sc.nextLine();
 
-        Appointment appointment = new Appointment(1, title, patient, new Clinician(2, "judit", "doctor"));
-        RadiologyAppointmentStatus.placeAppointment(appointment);
+        Appointment appointment = new Appointment("pending", title, patient, clinician);
 
+        RadiologyAppointmentStatus.placeAppointment(appointment);
+        System.out.println("Appointment created successfully");
 }
 
     private static void registerPatient() {

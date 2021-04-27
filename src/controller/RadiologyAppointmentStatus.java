@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  * The RadiologyAppointmentStatus class enables a clinician to create an appointment and follow up the appointment to see
@@ -90,7 +91,7 @@ public class RadiologyAppointmentStatus {
         return 1;
     }
 
-    public static  int updateAppointment(Appointment appointment, Patient patient, Clinician clinician){
+    public static  int updateAppointment(Appointment appointment){
         DbConnection dbConnection = new DbConnection();
         try {
             Connection con = dbConnection.connectDb();
@@ -99,13 +100,9 @@ public class RadiologyAppointmentStatus {
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setString(1, appointment.getStatus());
             preparedStatement.setString(2, appointment.getTitle());
-            preparedStatement.setInt(3, patient.getReq_no());
-            preparedStatement.setInt(4, clinician.getStaff_no());
+            preparedStatement.setInt(3, appointment.getPatient().getReq_no());
+            preparedStatement.setInt(4, appointment.getClinician().getStaff_no());
             preparedStatement.setInt(5, appointment.getId());
-
-
-
-
 
             preparedStatement.execute();
             con.close();
@@ -115,31 +112,61 @@ public class RadiologyAppointmentStatus {
         }
         return 1;
     }
-    public static  void getAllAppointments(Appointment appointment, Patient patient, Clinician clinician){
-        DbConnection  dbConnection = new DbConnection();
+
+    public static ArrayList<Appointment> getAllPendingAppointments(){
+        DbConnection dbConnection = new DbConnection();
+        ArrayList<Appointment> appointments = new ArrayList<>();
         try {
             Connection con = dbConnection.connectDb();
+            Statement stmnt = con.createStatement();
+            ResultSet rs = stmnt.executeQuery("Select * from appointment where status = 'pending';");
 
-            String query = "select * from appointment";
-
-
-
-
-
-
-            con.close();
-
-        } catch (Exception e) {
+            while (rs.next()){
+                Appointment appointment = new Appointment(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        HospitalSystem.getPatient(rs.getInt(4)),
+                        HospitalSystem.getClinician(rs.getInt(5))
+                );
+                appointments.add(appointment);
+            }
+        }catch (Exception e){
             e.printStackTrace();
         }
-      System.out.print(query);
+
+        return appointments;
+    }
+
+    public static Appointment getAppointment(int id) {
+        DbConnection dbConnection = new DbConnection();
+        try {
+            Connection con = dbConnection.connectDb();
+            Statement stmnt = con.createStatement();
+            ResultSet rs = stmnt.executeQuery("Select * from appointment where id = "+id+";");
+
+            if (rs.next()){
+                Appointment appointment = new Appointment(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        HospitalSystem.getPatient(rs.getInt(4)),
+                        HospitalSystem.getClinician(rs.getInt(5))
+                );
+                return appointment;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return null;
     }
       public static void main(String[] args){
         Patient patient = new Patient(3,"Patient 3","paid");
           Clinician clinician = new Clinician(4, "Hesron Mburu","Brokefingers");
           Radiographer radiographer = new Radiographer(4,"Radio 1","radiology");
 
-        Appointment appointment = new Appointment(1,"Brian",patient,clinician);
+        Appointment appointment = new Appointment("pending","Brian",patient,clinician);
           appointment.setStatus("pending");
         //  placeAppointment(appointment);
         //  appointment.setTitle("Kelyn");
@@ -149,4 +176,5 @@ public class RadiologyAppointmentStatus {
 
 
       }
+
 }

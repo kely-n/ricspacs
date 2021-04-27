@@ -11,6 +11,12 @@ public class ImagingResult {
         this.radiographer = radiographer;
     }
 
+    public ImagingResult(String imageUrl, Radiographer radiographer, Appointment appointment) {
+        this.imageUrl = imageUrl;
+        this.radiographer = radiographer;
+        this.appointment = appointment;
+    }
+
     public Radiographer getRadiographer() {
         return radiographer;
     }
@@ -35,4 +41,11 @@ public class ImagingResult {
         this.imageUrl = imageUrl;
     }
 
+    public Appointment getAppointment() {
+        return appointment;
+    }
+
+    public void setAppointment(Appointment appointment) {
+        this.appointment = appointment;
+    }
 }

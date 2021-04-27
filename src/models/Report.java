@@ -20,4 +20,27 @@ public class Report {
         this.description = description;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public ImagingResult getImagingResult() {
+        return imagingResult;
+    }
+
+    public void setImagingResult(ImagingResult imagingResult) {
+        this.imagingResult = imagingResult;
+    }
+
+    public Radiologist getRadiologist() {
+        return radiologist;
+    }
+
+    public void setRadiologist(Radiologist radiologist) {
+        this.radiologist = radiologist;
+    }
 }

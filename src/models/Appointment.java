@@ -8,8 +8,16 @@ public class Appointment {
     Patient patient;
     Clinician clinician;
 
-    public Appointment(int id, String title, Patient patient, Clinician clinician) {
+    public Appointment(int id,String status, String title, Patient patient, Clinician clinician) {
         this.id = id;
+        this.status = status;
+        this.title = title;
+        this.patient = patient;
+        this.clinician = clinician;
+    }
+
+    public Appointment(String status, String title, Patient patient, Clinician clinician) {
+        this.status = status;
         this.title = title;
         this.patient = patient;
         this.clinician = clinician;
@@ -55,4 +63,12 @@ public class Appointment {
         this.title = title;
     }
 
+    @Override
+    public String toString() {
+        return
+                "id=" + id +
+                ", status='" + status + '\'' +
+                ", title='" + title + '\'' +
+                ", patient=" + patient.getName() ;
+    }
 }
