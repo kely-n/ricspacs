@@ -51,7 +51,7 @@ public class RadiographerProgram {
     private static void processCommand(int command) {
         switch (command){
             case 1: //get pending appointments
-                viewPendingAppointments();
+                RadiographerProgram radiographerprogram = new RadiographerProgram();
                 break;
             case 2: //exit from the program
                 System.out.println("closing the application");
@@ -63,7 +63,7 @@ public class RadiographerProgram {
         }
     }
 
-    private static void viewPendingAppointments() {
+    private  void viewPendingAppointments() {
         //display all pending appointments
 
         System.out.println("Pending Appointments");
@@ -82,8 +82,6 @@ public class RadiographerProgram {
         String input = sc.nextLine();
 
         try {
-            int id = Integer.parseInt(input);
-           appointmentMenu(id);
 
         }catch(Exception e){
             System.out.println("Check that you have selected the correct input");
@@ -91,7 +89,7 @@ public class RadiographerProgram {
 
     }
 
-    private static void appointmentMenu(int id) {
+    private  void appointmentMenu(int id) {
 
         Appointment appointment = RadiologyAppointmentStatus.getAppointment(id);
         appointment.setStatus("processing");
