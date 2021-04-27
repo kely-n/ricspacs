@@ -76,10 +76,8 @@ public class RadiologistProgram {
 //            }
 //            System.out.println("");
 //        }
-        System.out.println("confirm reach");
         XrayProcess xrayprocess = new XrayProcess();
         ArrayList<ImagingResult> imagingResults = xrayprocess.getImageResults();
-        System.out.println(imagingResults);
         if(imagingResults.isEmpty()){
             System.out.println("No current imagingResults in the system");
             showMenu();

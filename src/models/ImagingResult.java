@@ -8,7 +8,9 @@ public class ImagingResult {
 
     public ImagingResult(int id, String imageUrl, Radiographer radiographer, Appointment appointment) {
         this.id = id;
+        this.imageUrl = imageUrl;
         this.radiographer = radiographer;
+        this.appointment = appointment;
     }
 
     public ImagingResult(String imageUrl, Radiographer radiographer, Appointment appointment) {
@@ -53,7 +55,8 @@ public class ImagingResult {
     public String toString() {
         return  "id=" + id +
                 ", imageUrl='" + imageUrl + '\'' +
-                ", radiographer=" + radiographer.getName() +
-                ", appointment=" + appointment.getId();
+                ", radiographer=" + radiographer.getName()+
+                ", appointment=" + appointment.getTitle()
+                ;
     }
 }

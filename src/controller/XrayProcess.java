@@ -53,16 +53,12 @@ public class XrayProcess {
             ResultSet rs = stmnt.executeQuery("Select * from imaging_result;");
 
             while (rs.next()){
-                System.out.println("parsing");
-                System.out.println(rs.getString(2));
-                System.out.println(rs.getInt(3));
                 ImagingResult imagingResult = new ImagingResult(
                         rs.getInt(1),
                         rs.getString(2),
                         hospitalSystem.getRadiographer(rs.getInt(4)),
                         radiologyAppointmentStatus.getAppointment(rs.getInt(3))
                 );
-
                 imagingResults.add(imagingResult);
             }
 

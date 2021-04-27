@@ -157,7 +157,6 @@ public class RadiologyAppointmentStatus {
                         hospitalSystem.getPatient(rs.getInt(4)),
                         hospitalSystem.getClinician(rs.getInt(5))
                 );
-                System.out.println(appointment.getTitle());
                 return appointment;
             }
         }catch (Exception e){
