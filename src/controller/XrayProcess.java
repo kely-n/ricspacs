@@ -16,7 +16,7 @@ public class XrayProcess {
      * @param imagingResult
      * @return 1 if successful, 0 otherwise
      */
-    public static int saveImagingResult(ImagingResult imagingResult){
+    public int saveImagingResult(ImagingResult imagingResult){
         DbConnection dbConnection = new DbConnection();
         try {
             Connection con = dbConnection.connectDb();
@@ -39,21 +39,30 @@ public class XrayProcess {
 
 
 
-    public static ArrayList<ImagingResult> getImageResults() {
+    public ArrayList<ImagingResult> getImageResults() {
         DbConnection dbConnection = new DbConnection();
+        HospitalSystem hospitalSystem = new HospitalSystem();
+        RadiologyAppointmentStatus radiologyAppointmentStatus = new RadiologyAppointmentStatus();
+
         ArrayList<ImagingResult> imagingResults = new ArrayList<>();
+
         try {
             Connection con = dbConnection.connectDb();
             Statement stmnt = con.createStatement();
+
             ResultSet rs = stmnt.executeQuery("Select * from imaging_result;");
 
             while (rs.next()){
+                System.out.println("parsing");
+                System.out.println(rs.getString(2));
+                System.out.println(rs.getInt(3));
                 ImagingResult imagingResult = new ImagingResult(
                         rs.getInt(1),
                         rs.getString(2),
-                        HospitalSystem.getRadiographer(rs.getInt(3)),
-                        RadiologyAppointmentStatus.getAppointment(rs.getInt(4))
+                        hospitalSystem.getRadiographer(rs.getInt(4)),
+                        radiologyAppointmentStatus.getAppointment(rs.getInt(3))
                 );
+
                 imagingResults.add(imagingResult);
             }
 
@@ -65,8 +74,10 @@ public class XrayProcess {
     }
 
 
-    public static ImagingResult getImagingResultOfId(int id) {
+    public ImagingResult getImagingResultOfId(int id) {
         DbConnection dbConnection = new DbConnection();
+        HospitalSystem hospitalSystem = new HospitalSystem();
+        RadiologyAppointmentStatus radiologyAppointmentStatus = new RadiologyAppointmentStatus();
 
         try {
             Connection con = dbConnection.connectDb();
@@ -77,8 +88,8 @@ public class XrayProcess {
                 ImagingResult imagingResult = new ImagingResult(
                         rs.getInt(1),
                         rs.getString(2),
-                        HospitalSystem.getRadiographer(rs.getInt(4)),
-                        RadiologyAppointmentStatus.getAppointment(rs.getInt(5))
+                        hospitalSystem.getRadiographer(rs.getInt(4)),
+                        radiologyAppointmentStatus.getAppointment(rs.getInt(5))
                 );
                 return imagingResult;
             }

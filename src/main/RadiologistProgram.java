@@ -18,8 +18,8 @@ public class RadiologistProgram {
     static Radiologist radiologist;
 
     static Scanner sc = new Scanner(System.in);
-    public static void main(String ... args){
-        System.out.println("Radiographers App: ");
+    public static void main(String []args){
+        System.out.println("Radiologist App: ");
 
         radiologist = HospitalSystem.getRadiologist(1);
 
@@ -75,7 +75,9 @@ public class RadiologistProgram {
 //            }
 //            System.out.println("");
 //        }
+        System.out.println("confirm reach");
         ArrayList<ImagingResult> imagingResults = XrayProcess.getImageResults();
+        System.out.println(imagingResults);
         if(imagingResults.isEmpty()){
             System.out.println("No current imagingResults in the system");
             showMenu();

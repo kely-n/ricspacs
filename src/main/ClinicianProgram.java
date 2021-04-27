@@ -21,12 +21,13 @@ public class ClinicianProgram {
 
     static  Clinician clinician;
 
-    static Scanner sc =  new Scanner(System.in);
+    Scanner sc =  new Scanner(System.in);
 
     public static void main(String []args){
-        System.out.println("Clinicians App: ");
 
-        clinician = HospitalSystem.getClinician(1);
+        HospitalSystem hospitalSystem = new HospitalSystem();
+        System.out.println("Clinicians App: ");
+        clinician = hospitalSystem.getClinician(1);
 
         while (true){
             showMenu();
@@ -34,7 +35,7 @@ public class ClinicianProgram {
 
     }
     private static void showMenu() {
-
+        Scanner sc =  new Scanner(System.in);
         System.out.println("Menu:");
         System.out.println("Select a valid option from the menu below");
         System.out.println("1. Register a new patient");
@@ -72,15 +73,15 @@ public class ClinicianProgram {
     }
 
     private static void showPatients() {
-
+        PatientRegistration patientRegistration = new PatientRegistration();
         System.out.println("registered patients");
         //display all registered patients
-        ArrayList<Patient> patients = PatientRegistration.getAllPatients();
+        ArrayList<Patient> patients = patientRegistration.getAllPatients();
         for(Patient patient : patients){
             System.out.println(patient.toString());
         }
         System.out.println("Select a patient (enter patients reg_no) : ");
-
+        Scanner sc =  new Scanner(System.in);
         String input = sc.nextLine();
 
         try {
@@ -95,8 +96,9 @@ public class ClinicianProgram {
     }
 
     private static void patientMenu(int reg_no) {
+        PatientRegistration patientRegistration = new PatientRegistration();
         //get the selected patient from database
-        Patient patient = PatientRegistration.getPatient(reg_no);
+        Patient patient = patientRegistration.getPatient(reg_no);
         System.out.println(patient);
         System.out.println("Patient Sub-Menu");
         System.out.println("Select a valid option");
@@ -105,7 +107,7 @@ public class ClinicianProgram {
         System.out.println("3. check appointment status of the patient");
         System.out.println("4. request for imaging result and radiologist report");
         System.out.println("5. back to main menu");
-
+        Scanner sc =  new Scanner(System.in);
 
         String input = sc.nextLine();
 
@@ -124,11 +126,13 @@ public class ClinicianProgram {
         switch (command){
             case 1: //Add and edit the patient's diagnosis
                 System.out.println("enter Patients diagnosis");
+                Scanner sc =  new Scanner(System.in);
                 String diagnosis = sc.nextLine();
                 patient.setDiagnosis(diagnosis);
 
                 //update data
-                PatientRegistration.updatePatientData(patient);
+                PatientRegistration patientRegistration = new PatientRegistration();
+                patientRegistration.updatePatientData(patient);
                 System.out.println("Diagnosis recorded");
                 break;
             case 2: //create the patient's appointment for an X-Ray
@@ -151,18 +155,21 @@ public class ClinicianProgram {
 
     private static void createAppointment(Patient patient) {
 
+        Scanner sc =  new Scanner(System.in);
         System.out.println("Appointment title: ");
         String title = sc.nextLine();
 
         Appointment appointment = new Appointment("pending", title, patient, clinician);
 
-        RadiologyAppointmentStatus.placeAppointment(appointment);
+        RadiologyAppointmentStatus radiologyAppointmentStatus = new RadiologyAppointmentStatus();
+        radiologyAppointmentStatus.placeAppointment(appointment);
         System.out.println("Appointment created successfully");
 }
 
     private static void registerPatient() {
         System.out.println("Register a new Patient");
         Patient patient;
+        Scanner sc =  new Scanner(System.in);
 
         System.out.println("Enter Patients Name:");
         String name = sc.nextLine();
@@ -186,7 +193,8 @@ public class ClinicianProgram {
         }
 
         patient = new Patient(reg_no,name,bilingStatus );
-        PatientRegistration.registerPatient(patient);
+        PatientRegistration patientRegistration = new PatientRegistration();
+        patientRegistration.registerPatient(patient);
         System.out.println("patient registered");
 
     }

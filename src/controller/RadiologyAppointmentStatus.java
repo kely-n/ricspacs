@@ -20,7 +20,7 @@ public class RadiologyAppointmentStatus {
      * @param appointment contains details of the appointment
      * @return 1 is appointment is created successfully else 0
      */
-    public static int placeAppointment(Appointment appointment){
+    public int placeAppointment(Appointment appointment){
         DbConnection dbConnection = new DbConnection();
         try {
             Connection con = dbConnection.connectDb();
@@ -51,7 +51,7 @@ public class RadiologyAppointmentStatus {
      * @return if the appointment is in pending state, it returns 'pending', if appointment is being worked on,
      * it returns 'running' and if complete, it returns 'ready'
      */
-    public static String checkAppointmentStatus(Appointment appointment){
+    public String checkAppointmentStatus(Appointment appointment){
 
         return "pending";
     }
@@ -62,7 +62,7 @@ public class RadiologyAppointmentStatus {
      * @param imagingResult is the path to the image from the radiographer
      * @return 1 if successful, else 0
      */
-    public static int attachImagingResult(Appointment appointment, String imagingResult){
+    public int attachImagingResult(Appointment appointment, String imagingResult){
 
         return 1;
     }
@@ -72,7 +72,7 @@ public class RadiologyAppointmentStatus {
      * @param appointment is the appointment to be deleted
      * @return
      */
-    public static int deleteAppointment(Appointment appointment){
+    public int deleteAppointment(Appointment appointment){
         DbConnection dbConnection = new DbConnection();
         try {
             Connection con = dbConnection.connectDb();
@@ -91,7 +91,7 @@ public class RadiologyAppointmentStatus {
         return 1;
     }
 
-    public static  int updateAppointment(Appointment appointment){
+    public  int updateAppointment(Appointment appointment){
         DbConnection dbConnection = new DbConnection();
         try {
             Connection con = dbConnection.connectDb();
@@ -113,8 +113,10 @@ public class RadiologyAppointmentStatus {
         return 1;
     }
 
-    public static ArrayList<Appointment> getAllPendingAppointments(){
+    public ArrayList<Appointment> getAllPendingAppointments(){
         DbConnection dbConnection = new DbConnection();
+        HospitalSystem hospitalSystem = new HospitalSystem();
+
         ArrayList<Appointment> appointments = new ArrayList<>();
         try {
             Connection con = dbConnection.connectDb();
@@ -126,8 +128,8 @@ public class RadiologyAppointmentStatus {
                         rs.getInt(1),
                         rs.getString(2),
                         rs.getString(3),
-                        HospitalSystem.getPatient(rs.getInt(4)),
-                        HospitalSystem.getClinician(rs.getInt(5))
+                        hospitalSystem.getPatient(rs.getInt(4)),
+                        hospitalSystem.getClinician(rs.getInt(5))
                 );
                 appointments.add(appointment);
             }
@@ -138,8 +140,10 @@ public class RadiologyAppointmentStatus {
         return appointments;
     }
 
-    public static Appointment getAppointment(int id) {
+    public Appointment getAppointment(int id) {
         DbConnection dbConnection = new DbConnection();
+        HospitalSystem hospitalSystem = new HospitalSystem();
+
         try {
             Connection con = dbConnection.connectDb();
             Statement stmnt = con.createStatement();
@@ -150,8 +154,8 @@ public class RadiologyAppointmentStatus {
                         rs.getInt(1),
                         rs.getString(2),
                         rs.getString(3),
-                        HospitalSystem.getPatient(rs.getInt(4)),
-                        HospitalSystem.getClinician(rs.getInt(5))
+                        hospitalSystem.getPatient(rs.getInt(4)),
+                        hospitalSystem.getClinician(rs.getInt(5))
                 );
                 return appointment;
             }
@@ -161,20 +165,7 @@ public class RadiologyAppointmentStatus {
 
         return null;
     }
-      public static void main(String[] args){
-        Patient patient = new Patient(3,"Patient 3","paid");
-          Clinician clinician = new Clinician(4, "Hesron Mburu","Brokefingers");
-          Radiographer radiographer = new Radiographer(4,"Radio 1","radiology");
-
-        Appointment appointment = new Appointment("pending","Brian",patient,clinician);
-          appointment.setStatus("pending");
-        //  placeAppointment(appointment);
-        //  appointment.setTitle("Kelyn");
-         // updateAppointment(appointment,patient,clinician);
-          deleteAppointment(appointment);
 
 
-
-      }
 
 }
