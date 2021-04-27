@@ -17,11 +17,10 @@ public class RadiologistProgram {
 
     static Radiologist radiologist;
 
-    static Scanner sc = new Scanner(System.in);
     public static void main(String []args){
         System.out.println("Radiologist App: ");
-
-        radiologist = HospitalSystem.getRadiologist(1);
+        HospitalSystem hospitalsytem = new HospitalSystem();
+        radiologist = hospitalsytem.getRadiologist(1);
 
         while(true){
             showMenu();
@@ -34,6 +33,7 @@ public class RadiologistProgram {
         System.out.println("Menu:");
 
 
+        Scanner sc = new Scanner(System.in);
         System.out.println("Select a valid option from the menu below");
         System.out.println("1. view Image Results");
         System.out.println("2. exit application");
@@ -77,7 +77,8 @@ public class RadiologistProgram {
 //            System.out.println("");
 //        }
         System.out.println("confirm reach");
-        ArrayList<ImagingResult> imagingResults = XrayProcess.getImageResults();
+        XrayProcess xrayprocess = new XrayProcess();
+        ArrayList<ImagingResult> imagingResults = xrayprocess.getImageResults();
         System.out.println(imagingResults);
         if(imagingResults.isEmpty()){
             System.out.println("No current imagingResults in the system");
@@ -87,6 +88,8 @@ public class RadiologistProgram {
         for(ImagingResult imagingResult : imagingResults){
             System.out.println(imagingResult);
         }
+
+        Scanner sc = new Scanner(System.in);
         System.out.println("Select an image result to write a report on (enter image result id) :");
         String input = sc.nextLine();
         try {
@@ -99,12 +102,16 @@ public class RadiologistProgram {
     }
 
     private  void writeReportOn(int id) {
-        ImagingResult imagingResult = XrayProcess.getImagingResultOfId(id);
+        XrayProcess xrayprocess = new XrayProcess();
+        ImagingResult imagingResult = xrayprocess.getImagingResultOfId(id);
+
+        Scanner sc = new Scanner(System.in);
         System.out.println("Type a description for the image: ");
         String description = sc.nextLine();
 
         Report report = new Report(description, imagingResult, radiologist);
-        RadiologyReportStatus.createReport(report);
+        RadiologyReportStatus radiologyreportstatus = new RadiologyReportStatus();
+        radiologyreportstatus.createReport(report);
         System.out.println("Report added");
     }
 

@@ -28,10 +28,10 @@ public class RadiologyAppointmentStatus {
             String query = "insert into appointment (status, title, patient_reg_no, clinician_staff_no) values(?, ?, ?, ?);";
             PreparedStatement preparedStatement = con.prepareStatement(query);
 
-            preparedStatement.setString(2, appointment.getStatus());
-            preparedStatement.setString(3, appointment.getTitle());
-            preparedStatement.setInt(4, appointment.getPatient().getReq_no());
-            preparedStatement.setInt(5, appointment.getClinician().getStaff_no());
+            preparedStatement.setString(1, appointment.getStatus());
+            preparedStatement.setString(2, appointment.getTitle());
+            preparedStatement.setInt(3, appointment.getPatient().getReq_no());
+            preparedStatement.setInt(4, appointment.getClinician().getStaff_no());
 
 
 
@@ -157,6 +157,7 @@ public class RadiologyAppointmentStatus {
                         hospitalSystem.getPatient(rs.getInt(4)),
                         hospitalSystem.getClinician(rs.getInt(5))
                 );
+                System.out.println(appointment.getTitle());
                 return appointment;
             }
         }catch (Exception e){
