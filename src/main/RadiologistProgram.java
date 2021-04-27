@@ -52,8 +52,9 @@ public class RadiologistProgram {
 
     private static void processCommand(int command) {
         switch (command){
-            case 1: //get all image results
-                viewRadiographerImageResult();
+            case 1: //get all image
+                RadiologistProgram radioligistprogram = new RadiologistProgram();
+                radioligistprogram.viewRadiographerImageResult();
                 break;
             case 2: //exit from the program
                 System.out.println("closing the application");
@@ -65,7 +66,7 @@ public class RadiologistProgram {
         }
     }
 
-    private static void viewRadiographerImageResult() {
+    private  void viewRadiographerImageResult() {
 //        ArrayList<Report> reports = RadiologyReportStatus.getAllReports();
 //        if(reports.isEmpty()){
 //            System.out.println("No current reports in the system");
@@ -95,7 +96,7 @@ public class RadiologistProgram {
         }
     }
 
-    private static void writeReportOn(int id) {
+    private  void writeReportOn(int id) {
         ImagingResult imagingResult = XrayProcess.getImagingResultOfId(id);
         System.out.println("Type a description for the image: ");
         String description = sc.nextLine();
