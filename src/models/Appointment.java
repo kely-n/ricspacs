@@ -15,6 +15,30 @@ public class Appointment {
         this.clinician = clinician;
     }
 
+    public Clinician getClinician() {
+        return clinician;
+    }
+
+    public void setClinician(Clinician clinician) {
+        this.clinician = clinician;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getStatus() {
         return status;
     }
