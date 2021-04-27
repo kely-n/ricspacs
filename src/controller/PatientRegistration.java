@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  *  The PatientRegistration program is an application that enables a patient to be
@@ -86,6 +87,17 @@ public class PatientRegistration {
         }
         return 0;
     }
+
+    public static Patient getPatient(int reg_no) {
+
+        return null;
+    }
+
+    public static ArrayList<Patient> getAllPatients(){
+
+        return null;
+    }
+
 
     public static void main(String ... args){
         Patient patient = new Patient(2, "patient 2", "paid");

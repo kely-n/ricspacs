@@ -7,7 +7,6 @@ public class Appointment {
     private String title;
     Patient patient;
     Clinician clinician;
-    ImagingResult imagingResult;
 
     public Appointment(int id, String title, Patient patient, Clinician clinician) {
         this.id = id;
@@ -30,14 +29,6 @@ public class Appointment {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public ImagingResult getImagingResult() {
-        return imagingResult;
-    }
-
-    public void setImagingResult(ImagingResult imagingResult) {
-        this.imagingResult = imagingResult;
     }
 
 }
