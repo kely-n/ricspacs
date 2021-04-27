@@ -1,9 +1,13 @@
 package controller;
 
+import models.Appointment;
 import models.ImagingResult;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 public class XrayProcess {
 
@@ -33,5 +37,57 @@ public class XrayProcess {
         return 1;
     }
 
+
+
+    public static ArrayList<ImagingResult> getImageResults() {
+        DbConnection dbConnection = new DbConnection();
+        ArrayList<ImagingResult> imagingResults = new ArrayList<>();
+        try {
+            Connection con = dbConnection.connectDb();
+            Statement stmnt = con.createStatement();
+            ResultSet rs = stmnt.executeQuery("Select * from imaging_result;");
+
+            while (rs.next()){
+                ImagingResult imagingResult = new ImagingResult(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        HospitalSystem.getRadiographer(rs.getInt(3)),
+                        RadiologyAppointmentStatus.getAppointment(rs.getInt(4))
+                );
+                imagingResults.add(imagingResult);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return imagingResults;
+    }
+
+
+    public static ImagingResult getImagingResultOfId(int id) {
+        DbConnection dbConnection = new DbConnection();
+
+        try {
+            Connection con = dbConnection.connectDb();
+            Statement stmnt = con.createStatement();
+            ResultSet rs = stmnt.executeQuery("Select * from imaging_result where id = "+id+";");
+
+            if(rs.next()){
+                ImagingResult imagingResult = new ImagingResult(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        HospitalSystem.getRadiographer(rs.getInt(4)),
+                        RadiologyAppointmentStatus.getAppointment(rs.getInt(5))
+                );
+                return imagingResult;
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
 }

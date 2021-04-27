@@ -25,9 +25,9 @@ public class RadiologyAppointmentStatus {
         try {
             Connection con = dbConnection.connectDb();
 
-            String query = "insert into appointment (id, status, title, patient_reg_no, clinician_staff_no) values(?, ?, ?, ?, ?);";
+            String query = "insert into appointment (status, title, patient_reg_no, clinician_staff_no) values(?, ?, ?, ?);";
             PreparedStatement preparedStatement = con.prepareStatement(query);
-            preparedStatement.setInt(1, appointment.getId());
+
             preparedStatement.setString(2, appointment.getStatus());
             preparedStatement.setString(3, appointment.getTitle());
             preparedStatement.setInt(4, appointment.getPatient().getReq_no());

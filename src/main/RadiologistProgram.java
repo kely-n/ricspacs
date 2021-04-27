@@ -1,8 +1,13 @@
 package main;
 
 import controller.HospitalSystem;
+import controller.RadiologyReportStatus;
+import controller.XrayProcess;
+import models.ImagingResult;
 import models.Radiologist;
+import models.Report;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -38,7 +43,7 @@ public class RadiologistProgram {
         try {
             int command = Integer.parseInt(input);
             processCommand(command);
-            System.out.println(command);
+
         }catch(Exception e){
             System.out.println("Check that you have selected the correct input");
             showMenu();
@@ -61,7 +66,43 @@ public class RadiologistProgram {
     }
 
     private static void viewRadiographerImageResult() {
+//        ArrayList<Report> reports = RadiologyReportStatus.getAllReports();
+//        if(reports.isEmpty()){
+//            System.out.println("No current reports in the system");
+//        }else {
+//            for (Report report : reports){
+//                System.out.println(report);
+//            }
+//            System.out.println("");
+//        }
+        ArrayList<ImagingResult> imagingResults = XrayProcess.getImageResults();
+        if(imagingResults.isEmpty()){
+            System.out.println("No current imagingResults in the system");
+            showMenu();
+        }
 
+        for(ImagingResult imagingResult : imagingResults){
+            System.out.println(imagingResult);
+        }
+        System.out.println("Select an image result to write a report on (enter image result id) :");
+        String input = sc.nextLine();
+        try {
+            int id = Integer.parseInt(input);
+            writeReportOn(id);
+        }catch(Exception e){
+            System.out.println("Check that you have selected the correct input");
+            showMenu();
+        }
+    }
+
+    private static void writeReportOn(int id) {
+        ImagingResult imagingResult = XrayProcess.getImagingResultOfId(id);
+        System.out.println("Type a description for the image: ");
+        String description = sc.nextLine();
+
+        Report report = new Report(description, imagingResult, radiologist);
+        RadiologyReportStatus.createReport(report);
+        System.out.println("Report added");
     }
 
 }

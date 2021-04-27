@@ -6,7 +6,7 @@ public class ImagingResult {
     Radiographer radiographer;
     Appointment appointment;
 
-    public ImagingResult(int id, Radiographer radiographer) {
+    public ImagingResult(int id, String imageUrl, Radiographer radiographer, Appointment appointment) {
         this.id = id;
         this.radiographer = radiographer;
     }
@@ -47,5 +47,13 @@ public class ImagingResult {
 
     public void setAppointment(Appointment appointment) {
         this.appointment = appointment;
+    }
+
+    @Override
+    public String toString() {
+        return  "id=" + id +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", radiographer=" + radiographer.getName() +
+                ", appointment=" + appointment.getId();
     }
 }

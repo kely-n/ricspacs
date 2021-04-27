@@ -19,7 +19,7 @@ public class RadiographerProgram {
     public static void main(String ... args){
         System.out.println("Radiographers App: ");
 
-        radiographer = HospitalSystem.getRadiologist(1);
+        radiographer = HospitalSystem.getRadiographer(1);
 
         while(true){
             showMenu();

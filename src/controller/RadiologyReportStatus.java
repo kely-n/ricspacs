@@ -6,6 +6,9 @@ import models.Report;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  * The RadiologyReportStatus enables a radiologist to observe an ImagingResult and write reports according to what he/she
@@ -23,9 +26,8 @@ public class RadiologyReportStatus {
         try {
             Connection con = dbConnection.connectDb();
 
-            String query = "insert into result (id, description, lab_result_id, radiologist_staff_no ) values(?, ?, ?, ?);";
+            String query = "insert into result ( description, lab_result_id, radiologist_staff_no ) values(?, ?, ?, ?);";
             PreparedStatement preparedStatement = con.prepareStatement(query);
-            preparedStatement.setInt(1, report.getId());
             preparedStatement.setString(1, report.getDescription());
             preparedStatement.setInt(2, report.getImagingResult().getId());
             preparedStatement.setInt(3, report.getRadiologist().getStaff_no());
@@ -43,12 +45,61 @@ public class RadiologyReportStatus {
 
     /**
      * gets the report of the patient based on radiologist report
-     * @param patient
+     * @param id
      * @return
      */
-    public static int getReport(Patient patient){
+    public static Report getReport(int id){
+        DbConnection dbConnection = new DbConnection();
 
-        return 1;
+        try {
+            Connection con = dbConnection.connectDb();
+            Statement stmnt = con.createStatement();
+            ResultSet rs = stmnt.executeQuery("Select * from report where id = "+id+";");
+
+            if(rs.next()){
+                Report report = new Report(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        XrayProcess.getImagingResultOfId(rs.getInt(4)),
+                        HospitalSystem.getRadiologist(rs.getInt(5))
+                );
+                return report;
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    /**
+     * gets all the reports of the patients in the system
+     * @return
+     */
+    public static ArrayList<Report> getAllReports(){
+        DbConnection dbConnection = new DbConnection();
+        ArrayList<Report> reports = new ArrayList<>();
+        try {
+            Connection con = dbConnection.connectDb();
+            Statement stmnt = con.createStatement();
+            ResultSet rs = stmnt.executeQuery("Select * from report;");
+
+            while(rs.next()){
+                Report report = new Report(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        XrayProcess.getImagingResultOfId(rs.getInt(4)),
+                        HospitalSystem.getRadiologist(rs.getInt(5))
+                );
+                reports.add(report);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return reports;
     }
 
 
