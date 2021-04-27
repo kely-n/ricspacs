@@ -13,6 +13,7 @@ import java.util.Scanner;
  */
 public class RadiographerProgram {
 
+
     static Radiographer radiographer;
 
     public static void main(String ... args){
@@ -134,6 +135,7 @@ public class RadiographerProgram {
             radiologyappointmentstatus.updateAppointment( appointment );
             showMenu();
         }
+
 
     }
 }
