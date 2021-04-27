@@ -18,8 +18,8 @@ public class RadiographerProgram {
     static Scanner sc = new Scanner(System.in);
     public static void main(String ... args){
         System.out.println("Radiographers App: ");
-
-        radiographer = HospitalSystem.getRadiographer(1);
+        HospitalSystem hospitalsytem = new HospitalSystem();
+        radiographer = hospitalsytem.getRadiographer(1);
 
         while(true){
             showMenu();
@@ -68,7 +68,8 @@ public class RadiographerProgram {
 
         System.out.println("Pending Appointments");
         //display all registered patients
-        ArrayList<Appointment> appointments = RadiologyAppointmentStatus.getAllPendingAppointments();
+        RadiologyAppointmentStatus radiologyappointmentstatus = new RadiologyAppointmentStatus();
+        ArrayList<Appointment> appointments = radiologyappointmentstatus.getAllPendingAppointments();
         if(appointments.isEmpty()){
             System.out.println("no pending appointments");
             showMenu();
@@ -90,10 +91,10 @@ public class RadiographerProgram {
     }
 
     private  void appointmentMenu(int id) {
-
-        Appointment appointment = RadiologyAppointmentStatus.getAppointment(id);
+        RadiologyAppointmentStatus radiologyappointmentstatus = new RadiologyAppointmentStatus();
+        Appointment appointment = radiologyappointmentstatus.getAppointment(id);
         appointment.setStatus("processing");
-        RadiologyAppointmentStatus.updateAppointment( appointment );
+        radiologyappointmentstatus.updateAppointment( appointment );
 
         System.out.println("Menu:");
         System.out.println("Select a valid option from the menu below");
@@ -108,18 +109,19 @@ public class RadiographerProgram {
             if(command == 1){
                 System.out.println("Enter the Imaging result url: ");
                 String imageResult = sc.nextLine();
-                Radiographer radiographer = HospitalSystem.getRadiographer(1);
-
+                HospitalSystem hospitalsystem = new HospitalSystem();
+                Radiographer radiographer = hospitalsystem.getRadiographer(1);
+                XrayProcess xrayprocess = new XrayProcess();
                 ImagingResult imagingResult = new ImagingResult(imageResult,radiographer,appointment );
-                XrayProcess.saveImagingResult(imagingResult);
+                xrayprocess.saveImagingResult(imagingResult);
 
                 appointment.setStatus("complete");
-                RadiologyAppointmentStatus.updateAppointment(appointment);
+                radiologyappointmentstatus.updateAppointment(appointment);
 
                 System.out.println("imaging result successfully added to appointment. ");
             }else if (command == 2){
                 appointment.setStatus("pending");
-                RadiologyAppointmentStatus.updateAppointment( appointment );
+                radiologyappointmentstatus.updateAppointment( appointment );
                 showMenu();
             }
 
