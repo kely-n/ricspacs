@@ -21,10 +21,7 @@ public class RadiologyReportStatus {
      * @param report
      * @return 1 if successful, else 0
      */
-<<<<<<< HEAD
 
-    public static int createReport(ImagingResult imagingResult, Report report){
-=======
     public int createReport( Report report){
         DbConnection dbConnection = new DbConnection();
         try {
@@ -44,8 +41,9 @@ public class RadiologyReportStatus {
             e.printStackTrace();
         }
 
->>>>>>> 053b4537c441817a3da8270da81c037e0aa2a288
+
         return 1;
+
     }
 
     /**
