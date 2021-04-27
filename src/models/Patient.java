@@ -12,6 +12,13 @@ public class Patient {
         this.billing_status = billing_status;
     }
 
+    public Patient(int req_no, String name, String billing_status, String diagnosis) {
+        this.req_no = req_no;
+        this.name = name;
+        this.billing_status = billing_status;
+        this.diagnosis = diagnosis;
+    }
+
     public int getReq_no() {
         return req_no;
     }
@@ -42,5 +49,14 @@ public class Patient {
 
     public void setDiagnosis(String diagnosis) {
         this.diagnosis = diagnosis;
+    }
+
+    @Override
+    public String toString() {
+        return "" +
+                "req_no=" + req_no +
+                ", name='" + name + '\'' +
+                ", billing_status='" + billing_status + '\'' +
+                ", diagnosis='" + diagnosis + '\'' ;
     }
 }

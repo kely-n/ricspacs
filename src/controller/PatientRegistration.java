@@ -4,6 +4,10 @@ import models.Patient;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+
 
 /**
  *  The PatientRegistration program is an application that enables a patient to be
@@ -16,7 +20,7 @@ public class PatientRegistration {
      * adds patient to the database
      * @return 0 if adding to database fails, 1 if successful
      */
-    public static int registerPatient(Patient patient){
+    public int registerPatient(Patient patient){
         DbConnection dbConnection = new DbConnection();
         try {
             Connection con = dbConnection.connectDb();
@@ -41,7 +45,7 @@ public class PatientRegistration {
      * updates a patient payment status id the database to paid
      * @return 0 if addingPayment fails, 1 if successful
      */
-    public static int updatePatientData(Patient patient){
+    public int updatePatientData(Patient patient){
         DbConnection dbConnection = new DbConnection();
         try {
             Connection con = dbConnection.connectDb();
@@ -66,7 +70,7 @@ public class PatientRegistration {
      * adds or updates diagnosis of a patient
      * @return 0 if addingPayment fails, 1 if successful
      */
-    public static int deletePatient(Patient patient){
+    public int deletePatient(Patient patient){
         DbConnection dbConnection = new DbConnection();
         try {
             Connection con = dbConnection.connectDb();
@@ -84,7 +88,53 @@ public class PatientRegistration {
         return 0;
     }
 
-    public static void main(String ... args){
+    public Patient getPatient(int reg_no) {
+        DbConnection dbConnection = new DbConnection();
+        try {
+            Connection con = dbConnection.connectDb();
+            Statement stmnt = con.createStatement();
+            ResultSet rs = stmnt.executeQuery("Select * from patient where reg_no = "+reg_no+";");
+
+            if (rs.next()){
+                Patient patient = new Patient(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4)
+                );
+                return patient;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<Patient> getAllPatients(){
+        DbConnection dbConnection = new DbConnection();
+        ArrayList<Patient> patients = new ArrayList<>();
+        try {
+            Connection con = dbConnection.connectDb();
+            Statement stmnt = con.createStatement();
+            ResultSet rs = stmnt.executeQuery("Select * from patient;");
+
+            while (rs.next()){
+                Patient patient = new Patient(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4)
+                );
+                patients.add(patient);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return patients;
+    }
+
+
+    public void main(String ... args){
         Patient patient = new Patient(2, "patient 2", "paid");
 
         registerPatient(patient);
