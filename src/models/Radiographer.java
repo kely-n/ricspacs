@@ -12,6 +12,12 @@ public class Radiographer {
         this.department = department;
     }
 
+    public Radiographer(String name, String department) {
+        this.name = name;
+        this.department = department;
+        this.password = password;
+    }
+
     public int getStaff_no() {
         return staff_no;
     }

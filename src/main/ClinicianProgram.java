@@ -1,10 +1,13 @@
 package main;
 
+import controller.HospitalSystem;
 import controller.PatientRegistration;
+import controller.RadiologyAppointmentStatus;
 import models.Appointment;
 import models.Clinician;
 import models.Patient;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -16,13 +19,157 @@ import java.util.Scanner;
  */
 public class ClinicianProgram {
 
-    public static void main(String []args){
-        System.out.println("Clinicians App: ");
+    static  Clinician clinician;
 
+    Scanner sc =  new Scanner(System.in);
+
+    public static void main(String []args){
+
+        HospitalSystem hospitalSystem = new HospitalSystem();
+        System.out.println("Clinicians App: ");
+        clinician = hospitalSystem.getClinician(1);
+
+        while (true){
+            showMenu();
+        }
+
+    }
+    private static void showMenu() {
+        Scanner sc =  new Scanner(System.in);
+        System.out.println("Menu:");
+        System.out.println("Select a valid option from the menu below");
+        System.out.println("1. Register a new patient");
+        System.out.println("2. view all patients");
+        System.out.println("3. exit application");
+
+        String input = sc.nextLine();
+
+        try {
+            int command = Integer.parseInt(input);
+            processCommand(command);
+            System.out.println(command);
+        }catch(Exception e){
+            System.out.println("Check that you have selected the correct input");
+            showMenu();
+        }
+    }
+
+    private static void processCommand(int command) {
+        switch (command){
+            case 1: //register new patient
+                registerPatient();
+                break;
+            case 2: //view all patients
+                showPatients();
+                break;
+            case 3: //exit from the program
+                System.out.println("closing the application");
+                System.exit(1);
+                break;
+            default:
+                System.out.println("Check that you have selected the correct input");
+                showMenu();
+        }
+    }
+
+    private static void showPatients() {
+        PatientRegistration patientRegistration = new PatientRegistration();
+        System.out.println("registered patients");
+        //display all registered patients
+        ArrayList<Patient> patients = patientRegistration.getAllPatients();
+        for(Patient patient : patients){
+            System.out.println(patient.toString());
+        }
+        System.out.println("Select a patient (enter patients reg_no) : ");
+        Scanner sc =  new Scanner(System.in);
+        String input = sc.nextLine();
+
+        try {
+            int reg_no = Integer.parseInt(input);
+            patientMenu(reg_no);
+        }catch(Exception e){
+            System.out.println("Check that you have selected the correct input");
+        }
+
+
+
+    }
+
+    private static void patientMenu(int reg_no) {
+        PatientRegistration patientRegistration = new PatientRegistration();
+        //get the selected patient from database
+        Patient patient = patientRegistration.getPatient(reg_no);
+        System.out.println(patient);
+        System.out.println("Patient Sub-Menu");
+        System.out.println("Select a valid option");
+        System.out.println("1. Add and edit the patient's diagnosis");
+        System.out.println("2. create the patient's appointment for an X-Ray");
+        System.out.println("3. check appointment status of the patient");
+        System.out.println("4. request for imaging result and radiologist report");
+        System.out.println("5. back to main menu");
+        Scanner sc =  new Scanner(System.in);
+
+        String input = sc.nextLine();
+
+        try {
+            int command = Integer.parseInt(input);
+            processPatientCommands(command, patient);
+            System.out.println(command);
+        }catch(Exception e){
+            System.out.println("Check that you have selected the correct input");
+        }
+
+
+    }
+
+    private static void processPatientCommands(int command, Patient patient) {
+        switch (command){
+            case 1: //Add and edit the patient's diagnosis
+                System.out.println("enter Patients diagnosis");
+                Scanner sc =  new Scanner(System.in);
+                String diagnosis = sc.nextLine();
+                patient.setDiagnosis(diagnosis);
+
+                //update data
+                PatientRegistration patientRegistration = new PatientRegistration();
+                patientRegistration.updatePatientData(patient);
+                System.out.println("Diagnosis recorded");
+                break;
+            case 2: //create the patient's appointment for an X-Ray
+                createAppointment(patient);
+                break;
+            case 3: //check appointment status of the patient
+
+                break;
+            case 4: //request for imaging result and radiologist report
+
+                break;
+            case 5: //home
+                showMenu();
+                break;
+            default:
+                System.out.println("Check that you have selected the correct input");
+                patientMenu(patient.getReq_no());
+        }
+    }
+
+    private static void createAppointment(Patient patient) {
+
+        Scanner sc =  new Scanner(System.in);
+        System.out.println("Appointment title: ");
+        String title = sc.nextLine();
+
+        Appointment appointment = new Appointment("pending", title, patient, clinician);
+
+        RadiologyAppointmentStatus radiologyAppointmentStatus = new RadiologyAppointmentStatus();
+        radiologyAppointmentStatus.placeAppointment(appointment);
+        System.out.println("Appointment created successfully");
+}
+
+    private static void registerPatient() {
         System.out.println("Register a new Patient");
         Patient patient;
-
-        Scanner sc = new Scanner(System.in);
+        Scanner sc =  new Scanner(System.in);
 
         System.out.println("Enter Patients Name:");
         String name = sc.nextLine();
@@ -46,23 +193,10 @@ public class ClinicianProgram {
         }
 
         patient = new Patient(reg_no,name,bilingStatus );
-        PatientRegistration.registerPatient(patient);
-
-        System.out.println("would you like to create an appointment: Y | N");
-        response = sc.nextLine().toUpperCase();
-        System.out.println(response);
-        if(response.equals("Y")){
-            System.out.println("in print statement");
-            System.out.println("Add the appointment's title: ");
-            String title = sc.nextLine();
-
-            Appointment appointment = new Appointment(1, title, patient, new Clinician(2, "judit", "doctor"));
-        }
-
-
-
+        PatientRegistration patientRegistration = new PatientRegistration();
+        patientRegistration.registerPatient(patient);
+        System.out.println("patient registered");
 
     }
-
 
 }
