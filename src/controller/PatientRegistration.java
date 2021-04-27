@@ -20,7 +20,7 @@ public class PatientRegistration {
      * adds patient to the database
      * @return 0 if adding to database fails, 1 if successful
      */
-    public static int registerPatient(Patient patient){
+    public int registerPatient(Patient patient){
         DbConnection dbConnection = new DbConnection();
         try {
             Connection con = dbConnection.connectDb();
@@ -45,7 +45,7 @@ public class PatientRegistration {
      * updates a patient payment status id the database to paid
      * @return 0 if addingPayment fails, 1 if successful
      */
-    public static int updatePatientData(Patient patient){
+    public int updatePatientData(Patient patient){
         DbConnection dbConnection = new DbConnection();
         try {
             Connection con = dbConnection.connectDb();
@@ -70,7 +70,7 @@ public class PatientRegistration {
      * adds or updates diagnosis of a patient
      * @return 0 if addingPayment fails, 1 if successful
      */
-    public static int deletePatient(Patient patient){
+    public int deletePatient(Patient patient){
         DbConnection dbConnection = new DbConnection();
         try {
             Connection con = dbConnection.connectDb();
@@ -88,7 +88,7 @@ public class PatientRegistration {
         return 0;
     }
 
-    public static Patient getPatient(int reg_no) {
+    public Patient getPatient(int reg_no) {
         DbConnection dbConnection = new DbConnection();
         try {
             Connection con = dbConnection.connectDb();
@@ -110,7 +110,7 @@ public class PatientRegistration {
         return null;
     }
 
-    public static ArrayList<Patient> getAllPatients(){
+    public ArrayList<Patient> getAllPatients(){
         DbConnection dbConnection = new DbConnection();
         ArrayList<Patient> patients = new ArrayList<>();
         try {
@@ -134,7 +134,7 @@ public class PatientRegistration {
     }
 
 
-    public static void main(String ... args){
+    public void main(String ... args){
         Patient patient = new Patient(2, "patient 2", "paid");
 
         registerPatient(patient);

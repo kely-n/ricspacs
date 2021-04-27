@@ -11,7 +11,7 @@ import java.sql.Statement;
 
 public class HospitalSystem {
 
-    public static Patient getPatient(int reg_no){
+    public Patient getPatient(int reg_no){
         DbConnection dbConnection = new DbConnection();
         try {
             Connection con = dbConnection.connectDb();
@@ -33,7 +33,7 @@ public class HospitalSystem {
         return null;
     }
 
-    public static Radiographer getRadiographer(int staff_no){
+    public Radiographer getRadiographer(int staff_no){
         DbConnection dbConnection = new DbConnection();
         try {
             Connection con = dbConnection.connectDb();
@@ -54,7 +54,7 @@ public class HospitalSystem {
         return null;
     }
 
-    public static Clinician getClinician(int staff_no) {
+    public Clinician getClinician(int staff_no) {
         DbConnection dbConnection = new DbConnection();
         try {
         Connection con = dbConnection.connectDb();
@@ -75,7 +75,7 @@ public class HospitalSystem {
         return null;
     }
 
-    public static Radiologist getRadiologist(int staff_no){
+    public Radiologist getRadiologist(int staff_no){
         DbConnection dbConnection = new DbConnection();
         try {
             Connection con = dbConnection.connectDb();

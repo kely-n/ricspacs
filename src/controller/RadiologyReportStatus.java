@@ -21,7 +21,7 @@ public class RadiologyReportStatus {
      * @param report
      * @return 1 if successful, else 0
      */
-    public static int createReport( Report report){
+    public int createReport( Report report){
         DbConnection dbConnection = new DbConnection();
         try {
             Connection con = dbConnection.connectDb();
@@ -48,8 +48,10 @@ public class RadiologyReportStatus {
      * @param id
      * @return
      */
-    public static Report getReport(int id){
+    public Report getReport(int id){
         DbConnection dbConnection = new DbConnection();
+        HospitalSystem hospitalSystem = new HospitalSystem();
+        XrayProcess xrayProcess = new XrayProcess();
 
         try {
             Connection con = dbConnection.connectDb();
@@ -60,8 +62,8 @@ public class RadiologyReportStatus {
                 Report report = new Report(
                         rs.getInt(1),
                         rs.getString(2),
-                        XrayProcess.getImagingResultOfId(rs.getInt(4)),
-                        HospitalSystem.getRadiologist(rs.getInt(5))
+                        xrayProcess.getImagingResultOfId(rs.getInt(4)),
+                        hospitalSystem.getRadiologist(rs.getInt(5))
                 );
                 return report;
             }
@@ -77,8 +79,11 @@ public class RadiologyReportStatus {
      * gets all the reports of the patients in the system
      * @return
      */
-    public static ArrayList<Report> getAllReports(){
+    public ArrayList<Report> getAllReports(){
         DbConnection dbConnection = new DbConnection();
+        HospitalSystem hospitalSystem = new HospitalSystem();
+        XrayProcess xrayProcess = new XrayProcess();
+
         ArrayList<Report> reports = new ArrayList<>();
         try {
             Connection con = dbConnection.connectDb();
@@ -89,8 +94,8 @@ public class RadiologyReportStatus {
                 Report report = new Report(
                         rs.getInt(1),
                         rs.getString(2),
-                        XrayProcess.getImagingResultOfId(rs.getInt(4)),
-                        HospitalSystem.getRadiologist(rs.getInt(5))
+                        xrayProcess.getImagingResultOfId(rs.getInt(4)),
+                        hospitalSystem.getRadiologist(rs.getInt(5))
                 );
                 reports.add(report);
             }
